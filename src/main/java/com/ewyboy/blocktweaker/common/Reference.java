@@ -14,6 +14,6 @@ public class Reference {
     public static final class PATH {
         public static final String CLIENT_PROXY = "com.ewyboy.blocktweaker.proxy.ClientProxy";
         public static final String COMMON_PROXY = "com.ewyboy.blocktweaker.proxy.CommonProxy";
-        public static final String GUI_PATH = "com.ewyboy.blocktweaker.client.GuiFactoryNerf";
+        public static final String GUI_PATH = "com.ewyboy.blocktweaker.client.GuiFactoryBlockTweaker";
     }
 }

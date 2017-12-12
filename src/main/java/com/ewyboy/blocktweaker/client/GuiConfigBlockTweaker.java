@@ -10,9 +10,9 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 /**
  * Created by EwyBoy
  */
-public class GuiConfigNerf extends GuiConfig {
+public class GuiConfigBlockTweaker extends GuiConfig {
 
-    public GuiConfigNerf(GuiScreen parentScreen) {
+    public GuiConfigBlockTweaker(GuiScreen parentScreen) {
         super(
                 parentScreen,
                 new ConfigElement(ConfigLoader.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(),

@@ -179,7 +179,10 @@ public class ConfigLoader {
                     fluid.setDensity(
                             config.getInt("Density", getSpecificCategory(block, SUBCAT_FLUID),
                                     fluid.getDensity(), Integer.MIN_VALUE, Integer.MAX_VALUE,
-                                    "Overrides the density value with this value."
+                                    "Overrides the density value with this value.\n" +
+                                             "Density of the fluid - completely arbitrary;\n" +
+                                             "negative density indicates that the fluid is lighter than air.\n" +
+                                             "Default value is approximately the real-life density of water in kg/m^3.\n"
                             )
                     );
                 } catch (Exception e) {
@@ -189,7 +192,9 @@ public class ConfigLoader {
                     fluid.setLuminosity(
                             config.getInt("Luminosity", getSpecificCategory(block, SUBCAT_FLUID),
                                     fluid.getLuminosity(), 0, Integer.MAX_VALUE,
-                                    "Overrides the luminosity value with this value."
+                                    "Overrides the luminosity value with this value.\n" +
+                                             "The light level emitted by this fluid.\n" +
+                                             "Default value is 0, as most fluids do not actively emit light.\n"
                             )
                     );
                 } catch (Exception e) {
@@ -199,7 +204,12 @@ public class ConfigLoader {
                     fluid.setViscosity(
                             config.getInt("Viscosity", getSpecificCategory(block, SUBCAT_FLUID),
                                     fluid.getLuminosity(), 0, Integer.MAX_VALUE,
-                                    "Overrides the viscosity value with this value."
+                                    "Overrides the viscosity value with this value.\n" +
+                                             "Viscosity (thickness) of the fluid - completely arbitrary;\n" +
+                                             "Negative values are not permissible.\n" +
+                                             "Default value is approximately the real-life density of water in m/s^2 (x10^-3).\n" +
+                                             "Higher viscosity means that a fluid flows more slowly, like molasses.\n" +
+                                             "Lower viscosity means that a fluid flows more quickly, like helium.\n"
                             )
                     );
                 } catch (Exception e) {
@@ -209,7 +219,10 @@ public class ConfigLoader {
                     fluid.setTemperature(
                             config.getInt("Temperature", getSpecificCategory(block, SUBCAT_FLUID),
                                     fluid.getTemperature(), 0, Integer.MAX_VALUE,
-                                    "Overrides the temperature value with this value."
+                                    "Overrides the temperature value with this value.\n" +
+                                             "Temperature of the fluid - completely arbitrary;\n" +
+                                             "higher temperature indicates that the fluid is hotter than air.\n" +
+                                             "Default value is approximately the real-life room temperature of water in degrees Kelvin.\n"
                             )
                     );
                 } catch (Exception e) {

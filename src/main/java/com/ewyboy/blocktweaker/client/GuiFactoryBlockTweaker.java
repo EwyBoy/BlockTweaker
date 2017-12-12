@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Created by EwyBoy
  */
-public class GuiFactoryNerf implements IModGuiFactory {
+public class GuiFactoryBlockTweaker implements IModGuiFactory {
 
     @Override
     public void initialize(Minecraft minecraftInstance) { }
@@ -21,7 +21,7 @@ public class GuiFactoryNerf implements IModGuiFactory {
 
     @Override
     public GuiScreen createConfigGui(GuiScreen parentScreen) {
-        return new GuiConfigNerf(parentScreen);
+        return new GuiConfigBlockTweaker(parentScreen);
     }
 
     @Override
