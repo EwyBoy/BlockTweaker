@@ -21,6 +21,7 @@ public class ConfigLoader {
     private static String MAINCAT_GOLBAL = "Global Tweaks";
     private static String MAINCAT_SPECIFIC = "Specific Tweaks";
     private static String SUBCAT_HARDNESS = "hardness";
+    private static String SUBCAT_RESISTANCE = "resistance";
     private static String SUBCAT_HARVEST = "harvesting";
     private static String SUBCAT_LIGHT = "light";
     private static String SUBCAT_FLUID = "fluid";
@@ -81,6 +82,14 @@ public class ConfigLoader {
         }
     }
 
+    private static float getBlockDefaultResistance(Block block) {
+        try {
+            return block.getExplosionResistance(null, null, null, null);
+        } catch (NullPointerException e) {
+            return 1.0f;
+        }
+    }
+
     private static float getBlockDefaultBrightness(Block block) {
         try {
             return block.getLightValue(block.getDefaultState());
@@ -123,6 +132,23 @@ public class ConfigLoader {
         }
     }
 
+    private static void tweakResistance(Block block) {
+        try {
+            if (getBlockDefaultResistance(block) >= 0.0f) {
+                block.setResistance(
+                        config.getFloat(
+                                "Resistance", getSpecificCategory(block, SUBCAT_RESISTANCE),
+                                getBlockDefaultResistance(block), 0.0f, Float.MAX_VALUE,
+                                "Overrides the resistance value with this value."
+                        )
+                );
+                config.setCategoryComment(getSpecificCategory(block, SUBCAT_RESISTANCE), "Tweak resistance properties for " + getFormattedBlockName(block));
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to tweak resistance for " + getFormattedBlockName(block), e);
+        }
+    }
+
     private static void setUnbreakable(Block block) {
         boolean setBlockUnbreakable;
         boolean isBlockUnbreakable = false;
@@ -152,7 +178,7 @@ public class ConfigLoader {
                                 "Harvest Tool", getSpecificCategory(block, SUBCAT_HARVEST),
                                 block.getHarvestTool(block.getDefaultState()),
                                 "Overrides the harvest tool with this tool.\n" +
-                                        "[shovel] [pickaxe] [axe] [sword]"
+                                         "[shovel] [pickaxe] [axe] [sword]"
                         ),
                         config.getInt(
                                 "Harvest Level", getSpecificCategory(block, SUBCAT_HARVEST),
@@ -160,7 +186,7 @@ public class ConfigLoader {
                                 "Overrides the harvest level value with this value.\n" +
                                         "Wood:    0\n" +
                                         "Stone:   1\n" +
-                                        "Iron:     2\n" +
+                                        "Iron:    2\n" +
                                         "Diamond: 3\n"
                         )
                 );
@@ -237,7 +263,7 @@ public class ConfigLoader {
 
     private static void globalHardnessTweak(Block block) {
         try {
-            if(getBlockDefaultHardness(block) >= 0.0) {
+            if(getBlockDefaultHardness(block) >= 1.0) {
                 block.setHardness(getBlockDefaultHardness(block) * config.getFloat(
                         "Hardness Multiplier", getGlobalCategory(SUBCAT_HARDNESS),
                         getBlockDefaultHardness(block), 1.0f, Float.MAX_VALUE,
@@ -248,6 +274,22 @@ public class ConfigLoader {
             }
         } catch (Exception e) {
             LOGGER.error("Failed to tweak hardness for " + getFormattedBlockName(block), e);
+        }
+    }
+
+    private static void globalResistanceTweak(Block block) {
+        try {
+            if(getBlockDefaultResistance(block) >= 1.0) {
+                block.setResistance(getBlockDefaultResistance(block) * config.getFloat(
+                        "Resistance Multiplier", getGlobalCategory(SUBCAT_RESISTANCE),
+                        getBlockDefaultResistance(block), 1.0f, Float.MAX_VALUE,
+                        "Multiplies the base resistance value for the block with this value."
+                        )
+                );
+                config.setCategoryComment(getGlobalCategory(SUBCAT_RESISTANCE), "Tweak the resistance properties for all blocks");
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to tweak resistance for " + getFormattedBlockName(block), e);
         }
     }
 
@@ -273,11 +315,14 @@ public class ConfigLoader {
     }
 
     public static void syncConfig() {
+        config.load();
         List blockList = ForgeRegistries.BLOCKS.getValues();
         for (Object aBlockList : blockList) {
             Block block = (Block) aBlockList;
             tweakHarness(block);
+            tweakResistance(block);
             globalHardnessTweak(block);
+            globalResistanceTweak(block);
             setUnbreakable(block);
             globalUnbreakableTweak(block);
             tweakBrightness(block);

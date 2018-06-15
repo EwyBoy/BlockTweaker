@@ -3,14 +3,14 @@
       "modid": "blocktweaker",
       "name": "Block Tweaker",
       "description": "Tweak Em All",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "mcversion": "1.12.2",
       "url": "https://minecraft.curseforge.com/projects/ore-tweaker",
       "updateUrl": "https://minecraft.curseforge.com/projects/ore-tweaker/files",
       "authorList": ["Ewy"],
       "credits": "
       [TODAY'S FUN-FACT]\n
-       Today it is famous streamer Darkosto's birthday
+       Did you know today is famous twitch streamer and modpack maker Darkosto's birthday
       ",
       "logoFile": "/nerf-logo.png",
       "screenshots": ["/nerf.png"],
